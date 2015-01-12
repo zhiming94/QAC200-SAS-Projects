@@ -1,8 +1,8 @@
 /* ----------------------------------------
 Code exported from SAS Enterprise Guide
-DATE: Friday, January 09, 2015     TIME: 2:47:22 PM
-PROJECT: TanZ_SAS_project_010915
-PROJECT PATH: P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp
+DATE: Monday, January 12, 2015     TIME: 4:35:31 PM
+PROJECT: TanZ_SAS_project_011215
+PROJECT PATH: P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp
 ---------------------------------------- */
 
 /* Library assignment for Local.ZDATA */
@@ -212,6 +212,32 @@ Libname ZDATA BASE 'P:\QAC\qac200\students\ztan01\Working Projects' ;
   %end;
 %mend;
 
+/* save the current settings of XPIXELS and YPIXELS */
+/* so that they can be restored later               */
+%macro _sas_pushchartsize(new_xsize, new_ysize);
+	%global _savedxpixels _savedypixels;
+	options nonotes;
+	proc sql noprint;
+	select setting into :_savedxpixels
+	from sashelp.vgopt
+	where optname eq "XPIXELS";
+	select setting into :_savedypixels
+	from sashelp.vgopt
+	where optname eq "YPIXELS";
+	quit;
+	options notes;
+	GOPTIONS XPIXELS=&new_xsize YPIXELS=&new_ysize;
+%mend;
+
+/* restore the previous values for XPIXELS and YPIXELS */
+%macro _sas_popchartsize;
+	%if %symexist(_savedxpixels) %then %do;
+		GOPTIONS XPIXELS=&_savedxpixels YPIXELS=&_savedypixels;
+		%symdel _savedxpixels / nowarn;
+		%symdel _savedypixels / nowarn;
+	%end;
+%mend;
+
 /* ---------------------------------- */
 /* MACRO: enterpriseguide             */
 /* PURPOSE: define a macro variable   */
@@ -268,32 +294,6 @@ Libname ZDATA BASE 'P:\QAC\qac200\students\ztan01\Working Projects' ;
 
 %enterpriseguide
 
-/* save the current settings of XPIXELS and YPIXELS */
-/* so that they can be restored later               */
-%macro _sas_pushchartsize(new_xsize, new_ysize);
-	%global _savedxpixels _savedypixels;
-	options nonotes;
-	proc sql noprint;
-	select setting into :_savedxpixels
-	from sashelp.vgopt
-	where optname eq "XPIXELS";
-	select setting into :_savedypixels
-	from sashelp.vgopt
-	where optname eq "YPIXELS";
-	quit;
-	options notes;
-	GOPTIONS XPIXELS=&new_xsize YPIXELS=&new_ysize;
-%mend;
-
-/* restore the previous values for XPIXELS and YPIXELS */
-%macro _sas_popchartsize;
-	%if %symexist(_savedxpixels) %then %do;
-		GOPTIONS XPIXELS=&_savedxpixels YPIXELS=&_savedypixels;
-		%symdel _savedxpixels / nowarn;
-		%symdel _savedypixels / nowarn;
-	%end;
-%mend;
-
 ODS PROCTITLE;
 OPTIONS DEV=ACTIVEX;
 GOPTIONS XPIXELS=0 YPIXELS=0;
@@ -310,8 +310,8 @@ ODS tagsets.sasreport13(ID=EGSRX) FILE=EGSRX
 
 /*   START OF NODE: Assign Project Library (ZDATA)   */
 %LET _CLIENTTASKLABEL='Assign Project Library (ZDATA)';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 LIBNAME ZDATA BASE "P:\QAC\qac200\students\ztan01\Working Projects" ;
@@ -324,8 +324,8 @@ GOPTIONS NOACCESSIBLE;
 
 /*   START OF NODE: Filter by age >_18   */
 %LET _CLIENTTASKLABEL='Filter by age >_18';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 %_eg_conditional_dropds(ZDATA.MEPS_FULLYR_2012_Subset);
@@ -429,7 +429,7 @@ PROC SQL;
           t1.WLKLIM31, 
           t1.WLKLIM53, 
           t1.EDRECODE
-      FROM EC100024.meps_fullyr_2012 t1
+      FROM EC100002.meps_fullyr_2012 t1
       WHERE t1.AGE12X >= 18
       ORDER BY t1.DUPERSID;
 QUIT;
@@ -443,8 +443,8 @@ GOPTIONS NOACCESSIBLE;
 /*   START OF NODE: Code For Data Set Attributes1   */
 %LET SYSLAST=ZDATA.MEPS_FULLYR_2012_SUBSET;
 %LET _CLIENTTASKLABEL='Code For Data Set Attributes1';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 %LET _SASPROGRAMFILE=;
 
 GOPTIONS ACCESSIBLE;
@@ -480,14 +480,14 @@ GOPTIONS NOACCESSIBLE;
 
 /*   START OF NODE: One-Way Frequencies for 2012 Adult MEPS subset   */
 %LET _CLIENTTASKLABEL='One-Way Frequencies for 2012 Adult MEPS subset';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:49 PM
+   Generated on: Monday, January 12, 2015 at 4:34:40 PM
    By task: One-Way Frequencies for 2012 Adult MEPS subset
 
    Input Data: Local:ZDATA.MEPS_FULLYR_2012_SUBSET
@@ -631,14 +631,14 @@ GOPTIONS NOACCESSIBLE;
 
 /*   START OF NODE: Recode Variables   */
 %LET _CLIENTTASKLABEL='Recode Variables';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
-%_eg_conditional_dropds(WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE);
+%_eg_conditional_dropds(ZDATA.QUERY_FOR_MEPS_FULLYR_2012_SUBSE);
 
 PROC SQL;
-   CREATE TABLE WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE AS 
+   CREATE TABLE ZDATA.QUERY_FOR_MEPS_FULLYR_2012_SUBSE(label="QUERY_FOR_MEPS_FULLYR_2012_SUBSE") AS 
    SELECT t1.DUPERSID, 
           t1.AGE12X, 
           t1.SEX, 
@@ -988,7 +988,15 @@ PROC SQL;
                WHEN -8 = t1.EDRECODE THEN .
                WHEN -9 = t1.EDRECODE THEN .
                ELSE t1.EDRECODE
-            END) LABEL="Education recode" AS 'EDUCATION RECODE'n
+            END) LABEL="Education recode" AS 'EDUCATION RECODE'n, 
+          /* HOW OFTEN RESTLESS */
+            (CASE 
+               WHEN -1 = t1.ADREST42 THEN .
+               WHEN -7 = t1.ADREST42 THEN .
+               WHEN -8 = t1.ADREST42 THEN .
+               WHEN -9 = t1.ADREST42 THEN .
+               ELSE t1.ADREST42
+            END) LABEL="How often restless" AS 'HOW OFTEN RESTLESS'n
       FROM ZDATA.MEPS_FULLYR_2012_SUBSET t1;
 QUIT;
 
@@ -1000,31 +1008,31 @@ GOPTIONS NOACCESSIBLE;
 %LET _CLIENTPROJECTNAME=;
 
 
-/*   START OF NODE: Table Analysis   */
-%LET _CLIENTTASKLABEL='Table Analysis';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+/*   START OF NODE: Table Analysis5   */
+%LET _CLIENTTASKLABEL='Table Analysis5';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:50 PM
-   By task: Table Analysis
+   Generated on: Monday, January 12, 2015 at 4:34:40 PM
+   By task: Table Analysis5
 
-   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Input Data: Local:ZDATA.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
    Server:  Local
    ------------------------------------------------------------------- */
 
 %_eg_conditional_dropds(WORK.SORTTempTableSorted);
 /* -------------------------------------------------------------------
-   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Sort data set Local:ZDATA.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
    ------------------------------------------------------------------- */
 
 PROC SQL;
 	CREATE VIEW WORK.SORTTempTableSorted AS
-		SELECT T.ADGENH42, T.HEALTH_IN_GENERAL
-	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE as T
+		SELECT T.EDRECODE, T."EDUCATION RECODE"n, T.ADGENH42, T.HEALTH_IN_GENERAL, T.CANCERDX, T."CANCER DIAGNOSIS"n, T.ADDAYA42, T.HLTH_LIMIT_MOD_ACTIVITIES, T.ADINSB42, T."INSURANCE NOT WORTH COST"n
+	FROM ZDATA.QUERY_FOR_MEPS_FULLYR_2012_SUBSE as T
 ;
 QUIT;
 TITLE;
@@ -1035,6 +1043,38 @@ FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSY
 PROC FREQ DATA = WORK.SORTTempTableSorted
 	ORDER=INTERNAL
 ;
+	TABLES EDRECODE * "EDUCATION RECODE"n /
+		NOROW
+		NOCOL
+		NOPERCENT
+		MISSPRINT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
+	TABLES CANCERDX * "CANCER DIAGNOSIS"n /
+		NOROW
+		NOCOL
+		NOPERCENT
+		MISSPRINT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
+	TABLES ADDAYA42 * HLTH_LIMIT_MOD_ACTIVITIES /
+		NOROW
+		NOCOL
+		NOPERCENT
+		MISSPRINT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
+	TABLES ADINSB42 * "INSURANCE NOT WORTH COST"n /
+		NOROW
+		NOCOL
+		NOPERCENT
+		MISSPRINT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
 	TABLES ADGENH42 * HEALTH_IN_GENERAL /
 		NOROW
 		NOCOL
@@ -1057,31 +1097,196 @@ GOPTIONS NOACCESSIBLE;
 %LET _CLIENTPROJECTNAME=;
 
 
-/*   START OF NODE: Table Analysis1   */
-%LET _CLIENTTASKLABEL='Table Analysis1';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+/*   START OF NODE: Reverse Coding   */
+%LET _CLIENTTASKLABEL='Reverse Coding';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+%_eg_conditional_dropds(ZDATA.MEPS_FULLYR_2012_RVSCODED);
+
+PROC SQL;
+   CREATE TABLE ZDATA.MEPS_FULLYR_2012_RVSCODED(label="MEPS_FULLYR_2012_RVSCODED") AS 
+   SELECT DISTINCT t1.DUPERSID, 
+          t1.SEX, 
+          t1.AGE12X, 
+          t1.REGION12, 
+          t1.RACETHX, 
+          t1.MARRY12X, 
+          t1.EDRECODE, 
+          t1.EMPST31, 
+          t1.ACTDTY31, 
+          t1.ACTDTY42, 
+          t1.ACTDTY53, 
+          t1.ADINSA42, 
+          t1.ADINSB42, 
+          t1.INSCOV12, 
+          t1.PREVCOVR, 
+          t1.PRVEV12, 
+          t1.CANCERDX, 
+          t1.ERTOT12, 
+          t1.TYPEPE42, 
+          t1.CHBRON31, 
+          t1.CHBRON53, 
+          t1.STPRAT12, 
+          t1.OTPAAT12, 
+          t1.PUBAT12X, 
+          t1.MCDAT12X, 
+          t1.PRIVAT12, 
+          t1.TRIAT12X, 
+          t1.ADHECR42, 
+          t1.PMEDPP31, 
+          t1.PMEDPP42, 
+          t1.PMEDPP53, 
+          t1.TTLP12X, 
+          t1.ADAPPT42, 
+          t1.ADEXPL42, 
+          t1.ADLIST42, 
+          t1.ADTLHW42, 
+          t1.ADINST42, 
+          t1.ADEZUN42, 
+          t1.ADRESP42, 
+          t1.ADPRTM42, 
+          t1.ADILWW42, 
+          t1.ADRTWW42, 
+          t1.ADFFRM42, 
+          t1.ADRTCR42, 
+          t1.ADSPEC42, 
+          t1.ADFHLP42, 
+          t1.ADNSMK42, 
+          t1.ADEGMC42, 
+          t1.ADSPRF42, 
+          t1.ADILCR42, 
+          t1.ADNDCR42, 
+          t1.ADDPRS42, 
+          t1.ADINTR42, 
+          t1.PHQ242, 
+          t1.ADDRBP42, 
+          t1.ADHOPE42, 
+          t1.ADNERV42, 
+          t1.ADREST42, 
+          t1.ADSAD42, 
+          t1.ADWRTH42, 
+          t1.ADEFRT42, 
+          t1.K6SUM42, 
+          t1.ADCAPE42, 
+          t1.ADDOWN42, 
+          t1.ADNRGY42, 
+          t1.ADSOCA42, 
+          t1.ADMALS42, 
+          t1.ADPALS42, 
+          t1.ADPAIN42, 
+          t1.ADMWLM42, 
+          t1.ADPWLM42, 
+          t1.ADOVER42, 
+          t1.ADSMOK42, 
+          t1.ADCMPD42, 
+          t1.ADCMPM42, 
+          t1.ADCMPY42, 
+          t1.ADGENH42, 
+          t1.ADCLIM42, 
+          t1.ADDAYA42, 
+          t1.ANGIDX, 
+          t1.ARTHDX, 
+          t1.EMPHDX, 
+          t1.LFTDIF31, 
+          t1.LFTDIF53, 
+          t1.PUBP12X, 
+          t1.WLKDIF31, 
+          t1.WLKDIF53, 
+          t1.WLKLIM31, 
+          t1.WLKLIM53, 
+          t1.ADLANG42, 
+          t1.ADRISK42, 
+          t1.SFFLAG42, 
+          t1.ADPRX42, 
+          t1.MCS42, 
+          t1.PCS42, 
+          t1.HEALTH_IN_GENERAL, 
+          t1.HLTH_LIMIT_MOD_ACTIVITIES, 
+          t1.HLTH_LIMIT_CLIMBING_STAIRS, 
+          t1.'4WKS:ACCMP_LESS_B/C_PHYS_PRBS'n, 
+          t1.' 4WKS:WORK_LIMT_B/C_PHY_PROBS'n, 
+          t1.'4WKS:ACCMP LESS B/C MNT PRBS'n, 
+          t1.'4WKS:WORK LIMT B/C MNT PROBS'n, 
+          t1.'4WKS:PAIN LIMITS NORMAL WORK'n, 
+          t1.'4WKS: FELT CALM/PEACEFUL'n, 
+          t1.'4WKS: HAD A LOT OF ENERGY'n, 
+          t1.'4WKS: FELT DOWNHEARTED/DEPR'n, 
+          t1.'4WKS: HLTH STOPPED SOC ACTIV'n, 
+          t1.'MARITAL STATUS'n, 
+          t1.'MORE LIKELY TO TAKE RISKS'n, 
+          t1.'# OF VISITS TO MED OFF FOR CARE'n, 
+          t1.'HOW OFT EVYTNG NEEDED EFFT'n, 
+          t1.'EASY GETTING MED CARE'n, 
+          t1.'RATING OF HEALTH CARE'n, 
+          t1.'GOT CARE WHEN NEEDED ILL/INJ'n, 
+          t1.'INJ/ILL NEEDING IMMD CARE'n, 
+          t1.'DO NOT NEED HEALTH INSURANCE'n, 
+          t1.'INSURANCE NOT WORTH COST'n, 
+          t1.'NEED ANY CARE, TEST, TREATMENT'n, 
+          t1.'CANCER DIAGNOSIS'n, 
+          t1.'CHRONIC BRONCHITS LAST 12 MONTHS'n, 
+          t1.'CHRONIC BRONCHITIS LAST 12 MTHS'n, 
+          t1.'ANGINA DIAGNOSIS'n, 
+          t1.'ARTHRITIS DIAGNOSIS'n, 
+          t1.'EMPHYSEMA DIAGNOSIS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS1'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS1'n, 
+          t1.'EMPLOYMENT STATUS R3/1'n, 
+          t1.'EMPLOYMENT STATUS R4/2'n, 
+          t1.'EMPLOYMENT STATUS R5/3'n, 
+          t1.'EDUCATION RECODE'n, 
+          t1.'HOW OFTEN RESTLESS'n, 
+          /* HEALTH_IN_GENERAL_RVSSCORE */
+            (6- t1.HEALTH_IN_GENERAL) LABEL="Health in general reverse scored" AS HEALTH_IN_GENERAL_RVSSCORE, 
+          /* PAIN_LMTS_NRM_WORK_RVSSCRD */
+            (6- t1.'4WKS:PAIN LIMITS NORMAL WORK'n) LABEL="Pain limits normal work reverse scored" AS 
+            PAIN_LMTS_NRM_WORK_RVSSCRD, 
+          /* FELT_CALM/PEACEFUL_RVSSCRD */
+            (6- t1.'4WKS: FELT CALM/PEACEFUL'n) LABEL="Felt calm/peaceful reverse scored" AS 
+            'FELT_CALM/PEACEFUL_RVSSCRD'n, 
+          /* HAD_A_LOT_OF_ENRG_RVSSCRD */
+            (6- t1.'4WKS: HAD A LOT OF ENERGY'n) LABEL="Had a lot of energy reverse scored" AS HAD_A_LOT_OF_ENRG_RVSSCRD
+      FROM ZDATA.QUERY_FOR_MEPS_FULLYR_2012_SUBSE t1;
+QUIT;
+
+GOPTIONS NOACCESSIBLE;
+
+
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Reverse Coding Check   */
+%LET _CLIENTTASKLABEL='Reverse Coding Check';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:50 PM
-   By task: Table Analysis1
+   Generated on: Monday, January 12, 2015 at 4:34:40 PM
+   By task: Reverse Coding Check
 
-   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012_RVSCODED
    Server:  Local
    ------------------------------------------------------------------- */
 
 %_eg_conditional_dropds(WORK.SORTTempTableSorted);
 /* -------------------------------------------------------------------
-   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012_RVSCODED
    ------------------------------------------------------------------- */
 
 PROC SQL;
 	CREATE VIEW WORK.SORTTempTableSorted AS
-		SELECT T.ADDAYA42, T.HLTH_LIMIT_MOD_ACTIVITIES
-	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE as T
+		SELECT T.HEALTH_IN_GENERAL_RVSSCORE, T.HEALTH_IN_GENERAL, T.PAIN_LMTS_NRM_WORK_RVSSCRD, T."4WKS:PAIN LIMITS NORMAL WORK"n, T."FELT_CALM/PEACEFUL_RVSSCRD"n, T."4WKS: FELT CALM/PEACEFUL"n, T.HAD_A_LOT_OF_ENRG_RVSSCRD
+		     , T."4WKS: HAD A LOT OF ENERGY"n
+	FROM ZDATA.MEPS_FULLYR_2012_RVSCODED as T
 ;
 QUIT;
 TITLE;
@@ -1092,11 +1297,27 @@ FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSY
 PROC FREQ DATA = WORK.SORTTempTableSorted
 	ORDER=INTERNAL
 ;
-	TABLES ADDAYA42 * HLTH_LIMIT_MOD_ACTIVITIES /
+	TABLES HEALTH_IN_GENERAL * HEALTH_IN_GENERAL_RVSSCORE /
 		NOROW
-		NOCOL
 		NOPERCENT
-		MISSPRINT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
+	TABLES "4WKS:PAIN LIMITS NORMAL WORK"n * PAIN_LMTS_NRM_WORK_RVSSCRD /
+		NOROW
+		NOPERCENT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
+	TABLES "4WKS: FELT CALM/PEACEFUL"n * "FELT_CALM/PEACEFUL_RVSSCRD"n /
+		NOROW
+		NOPERCENT
+		NOCUM
+		SCORES=TABLE
+		ALPHA=0.05;
+	TABLES "4WKS: HAD A LOT OF ENERGY"n * HAD_A_LOT_OF_ENRG_RVSSCRD /
+		NOROW
+		NOPERCENT
 		NOCUM
 		SCORES=TABLE
 		ALPHA=0.05;
@@ -1114,49 +1335,211 @@ GOPTIONS NOACCESSIBLE;
 %LET _CLIENTPROJECTNAME=;
 
 
-/*   START OF NODE: Table Analysis2   */
-%LET _CLIENTTASKLABEL='Table Analysis2';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+/*   START OF NODE: SF-12 Aggregate   */
+%LET _CLIENTTASKLABEL='SF-12 Aggregate';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+%_eg_conditional_dropds(WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO);
+
+PROC SQL;
+   CREATE TABLE WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO AS 
+   SELECT t1.DUPERSID, 
+          t1.SEX, 
+          t1.AGE12X, 
+          t1.REGION12, 
+          t1.RACETHX, 
+          t1.MARRY12X, 
+          t1.EDRECODE, 
+          t1.EMPST31, 
+          t1.ACTDTY31, 
+          t1.ACTDTY42, 
+          t1.ACTDTY53, 
+          t1.ADINSA42, 
+          t1.ADINSB42, 
+          t1.INSCOV12, 
+          t1.PREVCOVR, 
+          t1.PRVEV12, 
+          t1.CANCERDX, 
+          t1.ERTOT12, 
+          t1.TYPEPE42, 
+          t1.CHBRON31, 
+          t1.CHBRON53, 
+          t1.STPRAT12, 
+          t1.OTPAAT12, 
+          t1.PUBAT12X, 
+          t1.MCDAT12X, 
+          t1.PRIVAT12, 
+          t1.TRIAT12X, 
+          t1.ADHECR42, 
+          t1.PMEDPP31, 
+          t1.PMEDPP42, 
+          t1.PMEDPP53, 
+          t1.TTLP12X, 
+          t1.ADAPPT42, 
+          t1.ADEXPL42, 
+          t1.ADLIST42, 
+          t1.ADTLHW42, 
+          t1.ADINST42, 
+          t1.ADEZUN42, 
+          t1.ADRESP42, 
+          t1.ADPRTM42, 
+          t1.ADILWW42, 
+          t1.ADRTWW42, 
+          t1.ADFFRM42, 
+          t1.ADRTCR42, 
+          t1.ADSPEC42, 
+          t1.ADFHLP42, 
+          t1.ADNSMK42, 
+          t1.ADEGMC42, 
+          t1.ADSPRF42, 
+          t1.ADILCR42, 
+          t1.ADNDCR42, 
+          t1.ADDPRS42, 
+          t1.ADINTR42, 
+          t1.PHQ242, 
+          t1.ADDRBP42, 
+          t1.ADHOPE42, 
+          t1.ADNERV42, 
+          t1.ADREST42, 
+          t1.ADSAD42, 
+          t1.ADWRTH42, 
+          t1.ADEFRT42, 
+          t1.K6SUM42, 
+          t1.ADCAPE42, 
+          t1.ADDOWN42, 
+          t1.ADNRGY42, 
+          t1.ADSOCA42, 
+          t1.ADMALS42, 
+          t1.ADPALS42, 
+          t1.ADPAIN42, 
+          t1.ADMWLM42, 
+          t1.ADPWLM42, 
+          t1.ADOVER42, 
+          t1.ADSMOK42, 
+          t1.ADCMPD42, 
+          t1.ADCMPM42, 
+          t1.ADCMPY42, 
+          t1.ADGENH42, 
+          t1.ADCLIM42, 
+          t1.ADDAYA42, 
+          t1.ANGIDX, 
+          t1.ARTHDX, 
+          t1.EMPHDX, 
+          t1.LFTDIF31, 
+          t1.LFTDIF53, 
+          t1.PUBP12X, 
+          t1.WLKDIF31, 
+          t1.WLKDIF53, 
+          t1.WLKLIM31, 
+          t1.WLKLIM53, 
+          t1.ADLANG42, 
+          t1.ADRISK42, 
+          t1.SFFLAG42, 
+          t1.ADPRX42, 
+          t1.MCS42, 
+          t1.PCS42, 
+          t1.HEALTH_IN_GENERAL, 
+          t1.HLTH_LIMIT_MOD_ACTIVITIES, 
+          t1.HLTH_LIMIT_CLIMBING_STAIRS, 
+          t1.'4WKS:ACCMP_LESS_B/C_PHYS_PRBS'n, 
+          t1.' 4WKS:WORK_LIMT_B/C_PHY_PROBS'n, 
+          t1.'4WKS:ACCMP LESS B/C MNT PRBS'n, 
+          t1.'4WKS:WORK LIMT B/C MNT PROBS'n, 
+          t1.'4WKS:PAIN LIMITS NORMAL WORK'n, 
+          t1.'4WKS: FELT CALM/PEACEFUL'n, 
+          t1.'4WKS: HAD A LOT OF ENERGY'n, 
+          t1.'4WKS: FELT DOWNHEARTED/DEPR'n, 
+          t1.'4WKS: HLTH STOPPED SOC ACTIV'n, 
+          t1.'MARITAL STATUS'n, 
+          t1.'MORE LIKELY TO TAKE RISKS'n, 
+          t1.'# OF VISITS TO MED OFF FOR CARE'n, 
+          t1.'HOW OFT EVYTNG NEEDED EFFT'n, 
+          t1.'EASY GETTING MED CARE'n, 
+          t1.'RATING OF HEALTH CARE'n, 
+          t1.'GOT CARE WHEN NEEDED ILL/INJ'n, 
+          t1.'INJ/ILL NEEDING IMMD CARE'n, 
+          t1.'DO NOT NEED HEALTH INSURANCE'n, 
+          t1.'INSURANCE NOT WORTH COST'n, 
+          t1.'NEED ANY CARE, TEST, TREATMENT'n, 
+          t1.'CANCER DIAGNOSIS'n, 
+          t1.'CHRONIC BRONCHITS LAST 12 MONTHS'n, 
+          t1.'CHRONIC BRONCHITIS LAST 12 MTHS'n, 
+          t1.'ANGINA DIAGNOSIS'n, 
+          t1.'ARTHRITIS DIAGNOSIS'n, 
+          t1.'EMPHYSEMA DIAGNOSIS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS1'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS1'n, 
+          t1.'EMPLOYMENT STATUS R3/1'n, 
+          t1.'EMPLOYMENT STATUS R4/2'n, 
+          t1.'EMPLOYMENT STATUS R5/3'n, 
+          t1.'EDUCATION RECODE'n, 
+          t1.HEALTH_IN_GENERAL_RVSSCORE, 
+          t1.PAIN_LMTS_NRM_WORK_RVSSCRD, 
+          t1.'FELT_CALM/PEACEFUL_RVSSCRD'n, 
+          t1.HAD_A_LOT_OF_ENRG_RVSSCRD, 
+          t1.'HOW OFTEN RESTLESS'n, 
+          /* SF-12 AGGREGATE SCORE */
+            (SUM(t1.HEALTH_IN_GENERAL_RVSSCORE,t1.PAIN_LMTS_NRM_WORK_RVSSCRD,t1.'FELT_CALM/PEACEFUL_RVSSCRD'n
+            ,t1.HAD_A_LOT_OF_ENRG_RVSSCRD,t1.HLTH_LIMIT_MOD_ACTIVITIES,t1.HLTH_LIMIT_CLIMBING_STAIRS,t1.
+            '4WKS:ACCMP_LESS_B/C_PHYS_PRBS'n,t1.' 4WKS:WORK_LIMT_B/C_PHY_PROBS'n,t1.'4WKS:ACCMP LESS B/C MNT PRBS'n,t1.
+            '4WKS:WORK LIMT B/C MNT PROBS'n,t1.'4WKS: FELT DOWNHEARTED/DEPR'n,t1.'4WKS: HLTH STOPPED SOC ACTIV'n)) 
+            LABEL="SF-12 Aggregate score" AS 'SF-12 AGGREGATE SCORE'n
+      FROM ZDATA.MEPS_FULLYR_2012_RVSCODED t1;
+QUIT;
+
+GOPTIONS NOACCESSIBLE;
+
+
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: List Data1   */
+%LET _CLIENTTASKLABEL='List Data1';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:50 PM
-   By task: Table Analysis2
+   Generated on: Monday, January 12, 2015 at 4:34:40 PM
+   By task: List Data1
 
-   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO
    Server:  Local
    ------------------------------------------------------------------- */
 
 %_eg_conditional_dropds(WORK.SORTTempTableSorted);
 /* -------------------------------------------------------------------
-   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO
    ------------------------------------------------------------------- */
 
 PROC SQL;
 	CREATE VIEW WORK.SORTTempTableSorted AS
-		SELECT T.CANCERDX, T."CANCER DIAGNOSIS"n
-	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE as T
+		SELECT T.HLTH_LIMIT_MOD_ACTIVITIES, T.HEALTH_IN_GENERAL_RVSSCORE, T.PAIN_LMTS_NRM_WORK_RVSSCRD, T."FELT_CALM/PEACEFUL_RVSSCRD"n, T.HAD_A_LOT_OF_ENRG_RVSSCRD, T.HLTH_LIMIT_CLIMBING_STAIRS, T."4WKS:ACCMP_LESS_B/C_PHYS_PRBS"n
+		     , T." 4WKS:WORK_LIMT_B/C_PHY_PROBS"n, T."4WKS:ACCMP LESS B/C MNT PRBS"n, T."4WKS:WORK LIMT B/C MNT PROBS"n, T."4WKS: FELT DOWNHEARTED/DEPR"n, T."4WKS: HLTH STOPPED SOC ACTIV"n, T."SF-12 AGGREGATE SCORE"n
+	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO as T
 ;
 QUIT;
 TITLE;
-TITLE1 "Table Analysis";
-TITLE2 "Results";
+TITLE1 "Check aggregate variable coding";
 FOOTNOTE;
 FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
-PROC FREQ DATA = WORK.SORTTempTableSorted
-	ORDER=INTERNAL
-;
-	TABLES CANCERDX * "CANCER DIAGNOSIS"n /
-		NOROW
-		NOCOL
-		NOPERCENT
-		MISSPRINT
-		NOCUM
-		SCORES=TABLE
-		ALPHA=0.05;
+
+PROC PRINT DATA=WORK.SORTTempTableSorted
+	(OBS=50)
+	OBS="Row number"
+	LABEL
+	;
+	VAR HLTH_LIMIT_MOD_ACTIVITIES HEALTH_IN_GENERAL_RVSSCORE PAIN_LMTS_NRM_WORK_RVSSCRD "FELT_CALM/PEACEFUL_RVSSCRD"n HAD_A_LOT_OF_ENRG_RVSSCRD HLTH_LIMIT_CLIMBING_STAIRS "4WKS:ACCMP_LESS_B/C_PHYS_PRBS"n " 4WKS:WORK_LIMT_B/C_PHY_PROBS"n
+	  "4WKS:ACCMP LESS B/C MNT PRBS"n "4WKS:WORK LIMT B/C MNT PROBS"n "4WKS: FELT DOWNHEARTED/DEPR"n "4WKS: HLTH STOPPED SOC ACTIV"n "SF-12 AGGREGATE SCORE"n;
+RUN;
 /* -------------------------------------------------------------------
    End of task code.
    ------------------------------------------------------------------- */
@@ -1171,49 +1554,58 @@ GOPTIONS NOACCESSIBLE;
 %LET _CLIENTPROJECTNAME=;
 
 
-/*   START OF NODE: Table Analysis3   */
-%LET _CLIENTTASKLABEL='Table Analysis3';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+/*   START OF NODE: Summary Statistics1   */
+%LET _CLIENTTASKLABEL='Summary Statistics1';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:50 PM
-   By task: Table Analysis3
+   Generated on: Monday, January 12, 2015 at 4:34:41 PM
+   By task: Summary Statistics1
 
-   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO
    Server:  Local
    ------------------------------------------------------------------- */
 
 %_eg_conditional_dropds(WORK.SORTTempTableSorted);
 /* -------------------------------------------------------------------
-   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO
    ------------------------------------------------------------------- */
 
 PROC SQL;
 	CREATE VIEW WORK.SORTTempTableSorted AS
-		SELECT T.ARTHDX, T."ARTHRITIS DIAGNOSIS"n
-	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE as T
+		SELECT T."SF-12 AGGREGATE SCORE"n
+	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO as T
 ;
 QUIT;
+/* -------------------------------------------------------------------
+   Run the Means Procedure
+   ------------------------------------------------------------------- */
 TITLE;
-TITLE1 "Table Analysis";
-TITLE2 "Results";
+TITLE1 "Summary Statistics";
+TITLE2 "Results for SF-12 Aggregate Score";
 FOOTNOTE;
 FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
-PROC FREQ DATA = WORK.SORTTempTableSorted
-	ORDER=INTERNAL
-;
-	TABLES ARTHDX * "ARTHRITIS DIAGNOSIS"n /
-		NOROW
-		NOCOL
-		NOPERCENT
-		MISSPRINT
-		NOCUM
-		SCORES=TABLE
-		ALPHA=0.05;
+FOOTNOTE2 "By Zach Tan";
+PROC MEANS DATA=WORK.SORTTempTableSorted
+	FW=12
+	PRINTALLTYPES
+	CHARTYPE
+	QMETHOD=OS
+	VARDEF=DF 	
+		MEAN 
+		STD 
+		MODE 
+		N	
+		Q1 
+		MEDIAN 
+		Q3	;
+	VAR "SF-12 AGGREGATE SCORE"n;
+
+RUN;
 /* -------------------------------------------------------------------
    End of task code.
    ------------------------------------------------------------------- */
@@ -1228,54 +1620,1418 @@ GOPTIONS NOACCESSIBLE;
 %LET _CLIENTPROJECTNAME=;
 
 
-/*   START OF NODE: Table Analysis4   */
-%LET _CLIENTTASKLABEL='Table Analysis4';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+/*   START OF NODE: Distribution Analysis1   */
+%LET _CLIENTTASKLABEL='Distribution Analysis1';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:50 PM
-   By task: Table Analysis4
+   Generated on: Monday, January 12, 2015 at 4:34:41 PM
+   By task: Distribution Analysis1
 
-   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO
    Server:  Local
    ------------------------------------------------------------------- */
 
 %_eg_conditional_dropds(WORK.SORTTempTableSorted);
 /* -------------------------------------------------------------------
-   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE
+   PROC SHEWHART does not support DEVICE=ACTIVEX. Switching to PNG.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=PNG;
+ODS GRAPHICS ON;
+/* -------------------------------------------------------------------
+   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO
    ------------------------------------------------------------------- */
 
 PROC SQL;
 	CREATE VIEW WORK.SORTTempTableSorted AS
-		SELECT T.ADRISK42, T."MORE LIKELY TO TAKE RISKS"n
-	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_SUBSE as T
+		SELECT T."SF-12 AGGREGATE SCORE"n
+	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO as T
 ;
 QUIT;
 TITLE;
-TITLE1 "Table Analysis";
-TITLE2 "Results";
+TITLE1 "Distribution analysis of: SF-12 AGGREGATE SCORE";
 FOOTNOTE;
 FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
-PROC FREQ DATA = WORK.SORTTempTableSorted
-	ORDER=INTERNAL
+	ODS EXCLUDE EXTREMEOBS MODES MOMENTS;
+	
+	GOPTIONS htext=1 cells;
+	SYMBOL v=SQUARE c=BLUE h=1 cells;
+	PATTERN v=SOLID
+	;
+PROC UNIVARIATE DATA = WORK.SORTTempTableSorted
+		CIBASIC(TYPE=TWOSIDED ALPHA=0.05)
+		MU0=0
 ;
-	TABLES ADRISK42 * "MORE LIKELY TO TAKE RISKS"n /
-		NOROW
-		NOCOL
-		NOPERCENT
-		MISSPRINT
-		NOCUM
-		SCORES=TABLE
-		ALPHA=0.05;
+	VAR "SF-12 AGGREGATE SCORE"n;
+	HISTOGRAM   "SF-12 AGGREGATE SCORE"n / NORMAL	( 	W=1 	L=1 	COLOR=YELLOW  MU=EST SIGMA=EST)
+	
+		CFRAME=GRAY CAXES=BLACK WAXIS=1  CBARLINE=BLACK CFILL=BLUE PFILL=SOLID ;
+	;
 /* -------------------------------------------------------------------
    End of task code.
    ------------------------------------------------------------------- */
 RUN; QUIT;
 %_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+/* -------------------------------------------------------------------
+   Restoring original device type setting.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=ACTIVEX;
+ODS GRAPHICS OFF;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Categorical SF-12   */
+%LET _CLIENTTASKLABEL='Categorical SF-12';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+%_eg_conditional_dropds(WORK.QUERY_FOR_MEPS_FULLYR_2012__0000);
+
+PROC SQL;
+   CREATE TABLE WORK.QUERY_FOR_MEPS_FULLYR_2012__0000 AS 
+   SELECT t1.DUPERSID, 
+          t1.SEX, 
+          t1.AGE12X, 
+          t1.REGION12, 
+          t1.RACETHX, 
+          t1.MARRY12X, 
+          t1.EDRECODE, 
+          t1.EMPST31, 
+          t1.ACTDTY31, 
+          t1.ACTDTY42, 
+          t1.ACTDTY53, 
+          t1.ADINSA42, 
+          t1.ADINSB42, 
+          t1.INSCOV12, 
+          t1.PREVCOVR, 
+          t1.PRVEV12, 
+          t1.CANCERDX, 
+          t1.ERTOT12, 
+          t1.TYPEPE42, 
+          t1.CHBRON31, 
+          t1.CHBRON53, 
+          t1.STPRAT12, 
+          t1.OTPAAT12, 
+          t1.PUBAT12X, 
+          t1.MCDAT12X, 
+          t1.PRIVAT12, 
+          t1.TRIAT12X, 
+          t1.ADHECR42, 
+          t1.PMEDPP31, 
+          t1.PMEDPP42, 
+          t1.PMEDPP53, 
+          t1.TTLP12X, 
+          t1.ADAPPT42, 
+          t1.ADEXPL42, 
+          t1.ADLIST42, 
+          t1.ADTLHW42, 
+          t1.ADINST42, 
+          t1.ADEZUN42, 
+          t1.ADRESP42, 
+          t1.ADPRTM42, 
+          t1.ADILWW42, 
+          t1.ADRTWW42, 
+          t1.ADFFRM42, 
+          t1.ADRTCR42, 
+          t1.ADSPEC42, 
+          t1.ADFHLP42, 
+          t1.ADNSMK42, 
+          t1.ADEGMC42, 
+          t1.ADSPRF42, 
+          t1.ADILCR42, 
+          t1.ADNDCR42, 
+          t1.ADDPRS42, 
+          t1.ADINTR42, 
+          t1.PHQ242, 
+          t1.ADDRBP42, 
+          t1.ADHOPE42, 
+          t1.ADNERV42, 
+          t1.ADREST42, 
+          t1.ADSAD42, 
+          t1.ADWRTH42, 
+          t1.ADEFRT42, 
+          t1.K6SUM42, 
+          t1.ADCAPE42, 
+          t1.ADDOWN42, 
+          t1.ADNRGY42, 
+          t1.ADSOCA42, 
+          t1.ADMALS42, 
+          t1.ADPALS42, 
+          t1.ADPAIN42, 
+          t1.ADMWLM42, 
+          t1.ADPWLM42, 
+          t1.ADOVER42, 
+          t1.ADSMOK42, 
+          t1.ADCMPD42, 
+          t1.ADCMPM42, 
+          t1.ADCMPY42, 
+          t1.ADGENH42, 
+          t1.ADCLIM42, 
+          t1.ADDAYA42, 
+          t1.ANGIDX, 
+          t1.ARTHDX, 
+          t1.EMPHDX, 
+          t1.LFTDIF31, 
+          t1.LFTDIF53, 
+          t1.PUBP12X, 
+          t1.WLKDIF31, 
+          t1.WLKDIF53, 
+          t1.WLKLIM31, 
+          t1.WLKLIM53, 
+          t1.ADLANG42, 
+          t1.ADRISK42, 
+          t1.SFFLAG42, 
+          t1.ADPRX42, 
+          t1.MCS42, 
+          t1.PCS42, 
+          t1.HEALTH_IN_GENERAL, 
+          t1.HLTH_LIMIT_MOD_ACTIVITIES, 
+          t1.HLTH_LIMIT_CLIMBING_STAIRS, 
+          t1.'4WKS:ACCMP_LESS_B/C_PHYS_PRBS'n, 
+          t1.' 4WKS:WORK_LIMT_B/C_PHY_PROBS'n, 
+          t1.'4WKS:ACCMP LESS B/C MNT PRBS'n, 
+          t1.'4WKS:WORK LIMT B/C MNT PROBS'n, 
+          t1.'4WKS:PAIN LIMITS NORMAL WORK'n, 
+          t1.'4WKS: FELT CALM/PEACEFUL'n, 
+          t1.'4WKS: HAD A LOT OF ENERGY'n, 
+          t1.'4WKS: FELT DOWNHEARTED/DEPR'n, 
+          t1.'4WKS: HLTH STOPPED SOC ACTIV'n, 
+          t1.'MARITAL STATUS'n, 
+          t1.'MORE LIKELY TO TAKE RISKS'n, 
+          t1.'# OF VISITS TO MED OFF FOR CARE'n, 
+          t1.'HOW OFT EVYTNG NEEDED EFFT'n, 
+          t1.'EASY GETTING MED CARE'n, 
+          t1.'RATING OF HEALTH CARE'n, 
+          t1.'GOT CARE WHEN NEEDED ILL/INJ'n, 
+          t1.'INJ/ILL NEEDING IMMD CARE'n, 
+          t1.'DO NOT NEED HEALTH INSURANCE'n, 
+          t1.'INSURANCE NOT WORTH COST'n, 
+          t1.'NEED ANY CARE, TEST, TREATMENT'n, 
+          t1.'CANCER DIAGNOSIS'n, 
+          t1.'CHRONIC BRONCHITS LAST 12 MONTHS'n, 
+          t1.'CHRONIC BRONCHITIS LAST 12 MTHS'n, 
+          t1.'ANGINA DIAGNOSIS'n, 
+          t1.'ARTHRITIS DIAGNOSIS'n, 
+          t1.'EMPHYSEMA DIAGNOSIS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS1'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS1'n, 
+          t1.'EMPLOYMENT STATUS R3/1'n, 
+          t1.'EMPLOYMENT STATUS R4/2'n, 
+          t1.'EMPLOYMENT STATUS R5/3'n, 
+          t1.'EDUCATION RECODE'n, 
+          t1.HEALTH_IN_GENERAL_RVSSCORE, 
+          t1.PAIN_LMTS_NRM_WORK_RVSSCRD, 
+          t1.'FELT_CALM/PEACEFUL_RVSSCRD'n, 
+          t1.HAD_A_LOT_OF_ENRG_RVSSCRD, 
+          t1.'SF-12 AGGREGATE SCORE'n, 
+          /* SF-12 CATEGORICAL */
+            (CASE  
+               WHEN t1.'SF-12 AGGREGATE SCORE'n >=2 and t1.'SF-12 AGGREGATE SCORE'n <41
+               THEN 1
+               WHEN t1.'SF-12 AGGREGATE SCORE'n >=41 and t1.'SF-12 AGGREGATE SCORE'n <48
+               THEN 2
+               WHEN t1.'SF-12 AGGREGATE SCORE'n >=48 and t1.'SF-12 AGGREGATE SCORE'n <52
+               THEN 3
+               WHEN t1.'SF-12 AGGREGATE SCORE'n >=52
+               THEN 4
+            END) LABEL="SF-12 Categorical" AS 'SF-12 CATEGORICAL'n
+      FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO t1;
+QUIT;
+
+GOPTIONS NOACCESSIBLE;
+
+
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Categorical Aggregate check   */
+%LET _CLIENTTASKLABEL='Categorical Aggregate check';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:41 PM
+   By task: Categorical Aggregate check
+
+   Input Data: Local:WORK.QUERY_FOR_MEPS_FULLYR_2012__0000
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORT);
+/* -------------------------------------------------------------------
+   Sort data set Local:WORK.QUERY_FOR_MEPS_FULLYR_2012__0000
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORT AS
+		SELECT T."SF-12 AGGREGATE SCORE"n, T."SF-12 CATEGORICAL"n
+	FROM WORK.QUERY_FOR_MEPS_FULLYR_2012__0000 as T
+;
+QUIT;
+
+TITLE;
+TITLE1 "One-Way Frequencies";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC FREQ DATA=WORK.SORT
+	ORDER=INTERNAL
+;
+	TABLES "SF-12 AGGREGATE SCORE"n /  SCORES=TABLE;
+	TABLES "SF-12 CATEGORICAL"n /  SCORES=TABLE;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORT);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: RiskRestlessEnergyAggre   */
+%LET _CLIENTTASKLABEL='RiskRestlessEnergyAggre';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+%_eg_conditional_dropds(ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE);
+
+PROC SQL;
+   CREATE TABLE ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE(label="MEPS_FULLYR_2012__RRE_AGGREGATE") AS 
+   SELECT t1.DUPERSID, 
+          t1.SEX, 
+          t1.AGE12X, 
+          t1.REGION12, 
+          t1.RACETHX, 
+          t1.MARRY12X, 
+          t1.EDRECODE, 
+          t1.EMPST31, 
+          t1.ACTDTY31, 
+          t1.ACTDTY42, 
+          t1.ACTDTY53, 
+          t1.ADINSA42, 
+          t1.ADINSB42, 
+          t1.INSCOV12, 
+          t1.PREVCOVR, 
+          t1.PRVEV12, 
+          t1.CANCERDX, 
+          t1.ERTOT12, 
+          t1.TYPEPE42, 
+          t1.CHBRON31, 
+          t1.CHBRON53, 
+          t1.STPRAT12, 
+          t1.OTPAAT12, 
+          t1.PUBAT12X, 
+          t1.MCDAT12X, 
+          t1.PRIVAT12, 
+          t1.TRIAT12X, 
+          t1.ADHECR42, 
+          t1.PMEDPP31, 
+          t1.PMEDPP42, 
+          t1.PMEDPP53, 
+          t1.TTLP12X, 
+          t1.ADAPPT42, 
+          t1.ADEXPL42, 
+          t1.ADLIST42, 
+          t1.ADTLHW42, 
+          t1.ADINST42, 
+          t1.ADEZUN42, 
+          t1.ADRESP42, 
+          t1.ADPRTM42, 
+          t1.ADILWW42, 
+          t1.ADRTWW42, 
+          t1.ADFFRM42, 
+          t1.ADRTCR42, 
+          t1.ADSPEC42, 
+          t1.ADFHLP42, 
+          t1.ADNSMK42, 
+          t1.ADEGMC42, 
+          t1.ADSPRF42, 
+          t1.ADILCR42, 
+          t1.ADNDCR42, 
+          t1.ADDPRS42, 
+          t1.ADINTR42, 
+          t1.PHQ242, 
+          t1.ADDRBP42, 
+          t1.ADHOPE42, 
+          t1.ADNERV42, 
+          t1.ADREST42, 
+          t1.ADSAD42, 
+          t1.ADWRTH42, 
+          t1.ADEFRT42, 
+          t1.K6SUM42, 
+          t1.ADCAPE42, 
+          t1.ADDOWN42, 
+          t1.ADNRGY42, 
+          t1.ADSOCA42, 
+          t1.ADMALS42, 
+          t1.ADPALS42, 
+          t1.ADPAIN42, 
+          t1.ADMWLM42, 
+          t1.ADPWLM42, 
+          t1.ADOVER42, 
+          t1.ADSMOK42, 
+          t1.ADCMPD42, 
+          t1.ADCMPM42, 
+          t1.ADCMPY42, 
+          t1.ADGENH42, 
+          t1.ADCLIM42, 
+          t1.ADDAYA42, 
+          t1.ANGIDX, 
+          t1.ARTHDX, 
+          t1.EMPHDX, 
+          t1.LFTDIF31, 
+          t1.LFTDIF53, 
+          t1.PUBP12X, 
+          t1.WLKDIF31, 
+          t1.WLKDIF53, 
+          t1.WLKLIM31, 
+          t1.WLKLIM53, 
+          t1.ADLANG42, 
+          t1.ADRISK42, 
+          t1.SFFLAG42, 
+          t1.ADPRX42, 
+          t1.MCS42, 
+          t1.PCS42, 
+          t1.HEALTH_IN_GENERAL, 
+          t1.HLTH_LIMIT_MOD_ACTIVITIES, 
+          t1.HLTH_LIMIT_CLIMBING_STAIRS, 
+          t1.'4WKS:ACCMP_LESS_B/C_PHYS_PRBS'n, 
+          t1.' 4WKS:WORK_LIMT_B/C_PHY_PROBS'n, 
+          t1.'4WKS:ACCMP LESS B/C MNT PRBS'n, 
+          t1.'4WKS:WORK LIMT B/C MNT PROBS'n, 
+          t1.'4WKS:PAIN LIMITS NORMAL WORK'n, 
+          t1.'4WKS: FELT CALM/PEACEFUL'n, 
+          t1.'4WKS: HAD A LOT OF ENERGY'n, 
+          t1.'4WKS: FELT DOWNHEARTED/DEPR'n, 
+          t1.'4WKS: HLTH STOPPED SOC ACTIV'n, 
+          t1.'MARITAL STATUS'n, 
+          t1.'MORE LIKELY TO TAKE RISKS'n, 
+          t1.'# OF VISITS TO MED OFF FOR CARE'n, 
+          t1.'HOW OFT EVYTNG NEEDED EFFT'n, 
+          t1.'EASY GETTING MED CARE'n, 
+          t1.'RATING OF HEALTH CARE'n, 
+          t1.'GOT CARE WHEN NEEDED ILL/INJ'n, 
+          t1.'INJ/ILL NEEDING IMMD CARE'n, 
+          t1.'DO NOT NEED HEALTH INSURANCE'n, 
+          t1.'INSURANCE NOT WORTH COST'n, 
+          t1.'NEED ANY CARE, TEST, TREATMENT'n, 
+          t1.'CANCER DIAGNOSIS'n, 
+          t1.'CHRONIC BRONCHITS LAST 12 MONTHS'n, 
+          t1.'CHRONIC BRONCHITIS LAST 12 MTHS'n, 
+          t1.'ANGINA DIAGNOSIS'n, 
+          t1.'ARTHRITIS DIAGNOSIS'n, 
+          t1.'EMPHYSEMA DIAGNOSIS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS1'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS1'n, 
+          t1.'EMPLOYMENT STATUS R3/1'n, 
+          t1.'EMPLOYMENT STATUS R4/2'n, 
+          t1.'EMPLOYMENT STATUS R5/3'n, 
+          t1.'EDUCATION RECODE'n, 
+          t1.HEALTH_IN_GENERAL_RVSSCORE, 
+          t1.PAIN_LMTS_NRM_WORK_RVSSCRD, 
+          t1.'FELT_CALM/PEACEFUL_RVSSCRD'n, 
+          t1.HAD_A_LOT_OF_ENRG_RVSSCRD, 
+          t1.'HOW OFTEN RESTLESS'n, 
+          t1.'SF-12 AGGREGATE SCORE'n, 
+          /* RISK/RESTLESSNESS/ENERGY AGG */
+            (SUM(t1.'HOW OFTEN RESTLESS'n,t1.HAD_A_LOT_OF_ENRG_RVSSCRD,t1.'MORE LIKELY TO TAKE RISKS'n)) LABEL=
+            "Risk, restlessness, energy aggregate" AS 'RISK/RESTLESSNESS/ENERGY AGG'n
+      FROM WORK.QUERY_FOR_MEPS_FULLYR_2012_RVSCO t1;
+QUIT;
+
+GOPTIONS NOACCESSIBLE;
+
+
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: RRE List Data   */
+%LET _CLIENTTASKLABEL='RRE List Data';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:41 PM
+   By task: RRE List Data
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."MORE LIKELY TO TAKE RISKS"n, T.HAD_A_LOT_OF_ENRG_RVSSCRD, T."HOW OFTEN RESTLESS"n, T."RISK/RESTLESSNESS/ENERGY AGG"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+TITLE;
+TITLE1 "Report Listing";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+
+PROC PRINT DATA=WORK.SORTTempTableSorted
+	(OBS=50)
+	OBS="Row number"
+	LABEL
+	;
+	VAR "MORE LIKELY TO TAKE RISKS"n HAD_A_LOT_OF_ENRG_RVSSCRD "HOW OFTEN RESTLESS"n "RISK/RESTLESSNESS/ENERGY AGG"n;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: RRE Summary Statistics   */
+%LET _CLIENTTASKLABEL='RRE Summary Statistics';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:41 PM
+   By task: RRE Summary Statistics
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."RISK/RESTLESSNESS/ENERGY AGG"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+/* -------------------------------------------------------------------
+   Run the Means Procedure
+   ------------------------------------------------------------------- */
+TITLE;
+TITLE1 "Summary Statistics";
+TITLE2 "Results for Risk/Restlessness/Energy Aggregate";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC MEANS DATA=WORK.SORTTempTableSorted
+	FW=12
+	PRINTALLTYPES
+	CHARTYPE
+	QMETHOD=OS
+	VARDEF=DF 	
+		MEAN 
+		STD 
+		MODE 
+		N	
+		Q1 
+		MEDIAN 
+		Q3	;
+	VAR "RISK/RESTLESSNESS/ENERGY AGG"n;
+
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: RRE Distribution Analysis   */
+%LET _CLIENTTASKLABEL='RRE Distribution Analysis';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: RRE Distribution Analysis
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   PROC SHEWHART does not support DEVICE=ACTIVEX. Switching to PNG.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=PNG;
+ODS GRAPHICS ON;
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."RISK/RESTLESSNESS/ENERGY AGG"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+TITLE;
+TITLE1 "Distribution analysis of: RISK/RESTLESSNESS/ENERGY AGG";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+	ODS EXCLUDE EXTREMEOBS MODES MOMENTS;
+	
+	GOPTIONS htext=1 cells;
+	SYMBOL v=SQUARE c=BLUE h=1 cells;
+	PATTERN v=SOLID
+	;
+PROC UNIVARIATE DATA = WORK.SORTTempTableSorted
+		CIBASIC(TYPE=TWOSIDED ALPHA=0.05)
+		MU0=0
+;
+	VAR "RISK/RESTLESSNESS/ENERGY AGG"n;
+	HISTOGRAM   "RISK/RESTLESSNESS/ENERGY AGG"n / NORMAL	( 	W=1 	L=1 	COLOR=YELLOW  MU=EST SIGMA=EST)
+	
+		CFRAME=GRAY CAXES=BLACK WAXIS=1  CBARLINE=BLACK CFILL=BLUE PFILL=SOLID ;
+	;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+/* -------------------------------------------------------------------
+   Restoring original device type setting.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=ACTIVEX;
+ODS GRAPHICS OFF;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Marry List Data   */
+%LET _CLIENTTASKLABEL='Marry List Data';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: Marry List Data
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."MARITAL STATUS"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+TITLE;
+TITLE1 "Report Listing";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+
+PROC PRINT DATA=WORK.SORTTempTableSorted
+	(OBS=50)
+	OBS="Row number"
+	LABEL
+	;
+	VAR "MARITAL STATUS"n;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Marry Summary Statistics   */
+%LET _CLIENTTASKLABEL='Marry Summary Statistics';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: Marry Summary Statistics
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."MARITAL STATUS"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+/* -------------------------------------------------------------------
+   Run the Means Procedure
+   ------------------------------------------------------------------- */
+TITLE;
+TITLE1 "Summary Statistics";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC MEANS DATA=WORK.SORTTempTableSorted
+	FW=12
+	PRINTALLTYPES
+	CHARTYPE
+	QMETHOD=OS
+	VARDEF=DF 	
+		MEAN 
+		STD 
+		MODE 
+		N	
+		Q1 
+		MEDIAN 
+		Q3	;
+	VAR "MARITAL STATUS"n;
+
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Marry Distribution Analysis   */
+%LET _CLIENTTASKLABEL='Marry Distribution Analysis';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: Marry Distribution Analysis
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   PROC SHEWHART does not support DEVICE=ACTIVEX. Switching to PNG.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=PNG;
+ODS GRAPHICS ON;
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."MARITAL STATUS"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+TITLE;
+TITLE1 "Distribution analysis of: MARITAL STATUS";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+	ODS EXCLUDE EXTREMEOBS MODES MOMENTS;
+	
+	GOPTIONS htext=1 cells;
+	SYMBOL v=SQUARE c=BLUE h=1 cells;
+	PATTERN v=SOLID
+	;
+PROC UNIVARIATE DATA = WORK.SORTTempTableSorted
+		CIBASIC(TYPE=TWOSIDED ALPHA=0.05)
+		MU0=0
+;
+	VAR "MARITAL STATUS"n;
+	HISTOGRAM   "MARITAL STATUS"n / NORMAL	( 	W=1 	L=1 	COLOR=YELLOW  MU=EST SIGMA=EST)
+	
+		CFRAME=GRAY CAXES=BLACK WAXIS=1  CBARLINE=BLACK CFILL=BLUE PFILL=SOLID ;
+	;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+/* -------------------------------------------------------------------
+   Restoring original device type setting.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=ACTIVEX;
+ODS GRAPHICS OFF;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Education List Data   */
+%LET _CLIENTTASKLABEL='Education List Data';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: Education List Data
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."EDUCATION RECODE"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+TITLE;
+TITLE1 "Education Report Listing";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+
+PROC PRINT DATA=WORK.SORTTempTableSorted
+	(OBS=50)
+	OBS="Row number"
+	LABEL
+	;
+	VAR "EDUCATION RECODE"n;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Education Summary Statistics   */
+%LET _CLIENTTASKLABEL='Education Summary Statistics';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: Education Summary Statistics
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."EDUCATION RECODE"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+/* -------------------------------------------------------------------
+   Run the Means Procedure
+   ------------------------------------------------------------------- */
+TITLE;
+TITLE1 "Summary Statistics";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC MEANS DATA=WORK.SORTTempTableSorted
+	FW=12
+	PRINTALLTYPES
+	CHARTYPE
+	QMETHOD=OS
+	VARDEF=DF 	
+		MEAN 
+		STD 
+		MODE 
+		N	
+		Q1 
+		MEDIAN 
+		Q3	;
+	VAR "EDUCATION RECODE"n;
+
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Education Distribution Analysis   */
+%LET _CLIENTTASKLABEL='Education Distribution Analysis';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:42 PM
+   By task: Education Distribution Analysis
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+/* -------------------------------------------------------------------
+   PROC SHEWHART does not support DEVICE=ACTIVEX. Switching to PNG.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=PNG;
+ODS GRAPHICS ON;
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORTTempTableSorted AS
+		SELECT T."EDUCATION RECODE"n
+	FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE as T
+;
+QUIT;
+TITLE;
+TITLE1 "Distribution analysis of: EDUCATION RECODE";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+	ODS EXCLUDE EXTREMEOBS MODES MOMENTS;
+	
+	GOPTIONS htext=1 cells;
+	SYMBOL v=SQUARE c=BLUE h=1 cells;
+	PATTERN v=SOLID
+	;
+PROC UNIVARIATE DATA = WORK.SORTTempTableSorted
+		CIBASIC(TYPE=TWOSIDED ALPHA=0.05)
+		MU0=0
+;
+	VAR "EDUCATION RECODE"n;
+	HISTOGRAM   "EDUCATION RECODE"n / NORMAL	( 	W=1 	L=1 	COLOR=YELLOW  MU=EST SIGMA=EST)
+	
+		CFRAME=GRAY CAXES=BLACK WAXIS=1  CBARLINE=BLACK CFILL=BLUE PFILL=SOLID ;
+	;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORTTempTableSorted);
+TITLE; FOOTNOTE;
+/* -------------------------------------------------------------------
+   Restoring original device type setting.
+   ------------------------------------------------------------------- */
+OPTIONS DEV=ACTIVEX;
+ODS GRAPHICS OFF;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Catergorical variables   */
+%LET _CLIENTTASKLABEL='Catergorical variables';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+%_eg_conditional_dropds(ZDATA.MEPS_FULLYR_2012__CAT);
+
+PROC SQL;
+   CREATE TABLE ZDATA.MEPS_FULLYR_2012__CAT(label="MEPS_FULLYR_2012__CAT") AS 
+   SELECT t1.DUPERSID, 
+          t1.SEX, 
+          t1.AGE12X, 
+          t1.REGION12, 
+          t1.RACETHX, 
+          t1.MARRY12X, 
+          t1.EDRECODE, 
+          t1.EMPST31, 
+          t1.ACTDTY31, 
+          t1.ACTDTY42, 
+          t1.ACTDTY53, 
+          t1.ADINSA42, 
+          t1.ADINSB42, 
+          t1.INSCOV12, 
+          t1.PREVCOVR, 
+          t1.PRVEV12, 
+          t1.CANCERDX, 
+          t1.ERTOT12, 
+          t1.TYPEPE42, 
+          t1.CHBRON31, 
+          t1.CHBRON53, 
+          t1.STPRAT12, 
+          t1.OTPAAT12, 
+          t1.PUBAT12X, 
+          t1.MCDAT12X, 
+          t1.PRIVAT12, 
+          t1.TRIAT12X, 
+          t1.ADHECR42, 
+          t1.PMEDPP31, 
+          t1.PMEDPP42, 
+          t1.PMEDPP53, 
+          t1.TTLP12X, 
+          t1.ADAPPT42, 
+          t1.ADEXPL42, 
+          t1.ADLIST42, 
+          t1.ADTLHW42, 
+          t1.ADINST42, 
+          t1.ADEZUN42, 
+          t1.ADRESP42, 
+          t1.ADPRTM42, 
+          t1.ADILWW42, 
+          t1.ADRTWW42, 
+          t1.ADFFRM42, 
+          t1.ADRTCR42, 
+          t1.ADSPEC42, 
+          t1.ADFHLP42, 
+          t1.ADNSMK42, 
+          t1.ADEGMC42, 
+          t1.ADSPRF42, 
+          t1.ADILCR42, 
+          t1.ADNDCR42, 
+          t1.ADDPRS42, 
+          t1.ADINTR42, 
+          t1.PHQ242, 
+          t1.ADDRBP42, 
+          t1.ADHOPE42, 
+          t1.ADNERV42, 
+          t1.ADREST42, 
+          t1.ADSAD42, 
+          t1.ADWRTH42, 
+          t1.ADEFRT42, 
+          t1.K6SUM42, 
+          t1.ADCAPE42, 
+          t1.ADDOWN42, 
+          t1.ADNRGY42, 
+          t1.ADSOCA42, 
+          t1.ADMALS42, 
+          t1.ADPALS42, 
+          t1.ADPAIN42, 
+          t1.ADMWLM42, 
+          t1.ADPWLM42, 
+          t1.ADOVER42, 
+          t1.ADSMOK42, 
+          t1.ADCMPD42, 
+          t1.ADCMPM42, 
+          t1.ADCMPY42, 
+          t1.ADGENH42, 
+          t1.ADCLIM42, 
+          t1.ADDAYA42, 
+          t1.ANGIDX, 
+          t1.ARTHDX, 
+          t1.EMPHDX, 
+          t1.LFTDIF31, 
+          t1.LFTDIF53, 
+          t1.PUBP12X, 
+          t1.WLKDIF31, 
+          t1.WLKDIF53, 
+          t1.WLKLIM31, 
+          t1.WLKLIM53, 
+          t1.ADLANG42, 
+          t1.ADRISK42, 
+          t1.SFFLAG42, 
+          t1.ADPRX42, 
+          t1.MCS42, 
+          t1.PCS42, 
+          t1.HEALTH_IN_GENERAL, 
+          t1.HLTH_LIMIT_MOD_ACTIVITIES, 
+          t1.HLTH_LIMIT_CLIMBING_STAIRS, 
+          t1.'4WKS:ACCMP_LESS_B/C_PHYS_PRBS'n, 
+          t1.' 4WKS:WORK_LIMT_B/C_PHY_PROBS'n, 
+          t1.'4WKS:ACCMP LESS B/C MNT PRBS'n, 
+          t1.'4WKS:WORK LIMT B/C MNT PROBS'n, 
+          t1.'4WKS:PAIN LIMITS NORMAL WORK'n, 
+          t1.'4WKS: FELT CALM/PEACEFUL'n, 
+          t1.'4WKS: HAD A LOT OF ENERGY'n, 
+          t1.'4WKS: FELT DOWNHEARTED/DEPR'n, 
+          t1.'4WKS: HLTH STOPPED SOC ACTIV'n, 
+          t1.'MARITAL STATUS'n, 
+          t1.'MORE LIKELY TO TAKE RISKS'n, 
+          t1.'# OF VISITS TO MED OFF FOR CARE'n, 
+          t1.'HOW OFT EVYTNG NEEDED EFFT'n, 
+          t1.'EASY GETTING MED CARE'n, 
+          t1.'RATING OF HEALTH CARE'n, 
+          t1.'GOT CARE WHEN NEEDED ILL/INJ'n, 
+          t1.'INJ/ILL NEEDING IMMD CARE'n, 
+          t1.'DO NOT NEED HEALTH INSURANCE'n, 
+          t1.'INSURANCE NOT WORTH COST'n, 
+          t1.'NEED ANY CARE, TEST, TREATMENT'n, 
+          t1.'CANCER DIAGNOSIS'n, 
+          t1.'CHRONIC BRONCHITS LAST 12 MONTHS'n, 
+          t1.'CHRONIC BRONCHITIS LAST 12 MTHS'n, 
+          t1.'ANGINA DIAGNOSIS'n, 
+          t1.'ARTHRITIS DIAGNOSIS'n, 
+          t1.'EMPHYSEMA DIAGNOSIS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS'n, 
+          t1.'DIFFICULTY LIFTING 10 POUNDS1'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS'n, 
+          t1.'DIFFICULTY WALKING 3 BLOCKS1'n, 
+          t1.'EMPLOYMENT STATUS R3/1'n, 
+          t1.'EMPLOYMENT STATUS R4/2'n, 
+          t1.'EMPLOYMENT STATUS R5/3'n, 
+          t1.'EDUCATION RECODE'n, 
+          t1.HEALTH_IN_GENERAL_RVSSCORE, 
+          t1.PAIN_LMTS_NRM_WORK_RVSSCRD, 
+          t1.'FELT_CALM/PEACEFUL_RVSSCRD'n, 
+          t1.HAD_A_LOT_OF_ENRG_RVSSCRD, 
+          t1.'HOW OFTEN RESTLESS'n, 
+          t1.'SF-12 AGGREGATE SCORE'n, 
+          t1.'RISK/RESTLESSNESS/ENERGY AGG'n, 
+          /* RISK/RESTLESS/NRGY CAT */
+            (CASE  
+               WHEN t1.'RISK/RESTLESSNESS/ENERGY AGG'n >=0 and t1.'RISK/RESTLESSNESS/ENERGY AGG'n <5
+               THEN 1
+               WHEN t1.'RISK/RESTLESSNESS/ENERGY AGG'n >=5 and t1.'RISK/RESTLESSNESS/ENERGY AGG'n <8
+               THEN 2
+               WHEN t1.'RISK/RESTLESSNESS/ENERGY AGG'n >=8
+               THEN 3
+               
+            END) LABEL="Risk/restlessness/energy categorical " AS 'RISK/RESTLESS/NRGY CAT'n, 
+          /* Married or not currently married */
+            (CASE  
+               WHEN t1.'MARITAL STATUS'n >=1 and t1.'MARITAL STATUS'n <5
+               THEN 1
+               WHEN t1.'MARITAL STATUS'n >=5
+               THEN 2
+            
+            END) LABEL="Not currently married or currently married. 1=NCM 2=M" AS 'Married or not currently married'n, 
+          /* EDUCATION CAT */
+            (CASE  
+               WHEN t1.'EDUCATION RECODE'n >=0 and t1.'EDUCATION RECODE'n <13
+               THEN 1
+               WHEN t1.'EDUCATION RECODE'n >=13 and t1.'EDUCATION RECODE'n <14
+               THEN 2
+               WHEN t1.'EDUCATION RECODE'n >=14 and t1.'EDUCATION RECODE'n <15
+               THEN 3
+               WHEN t1.'EDUCATION RECODE'n >=15
+               THEN 4
+            END) LABEL="Edu cat, 1=No HS Grad, 2=HS Grad, 3= HS Grad But no 4yr deg grad, 4=4yr deg grad and above" AS 
+            'EDUCATION CAT'n
+      FROM ZDATA.MEPS_FULLYR_2012__RRE_AGGREGATE t1;
+QUIT;
+
+GOPTIONS NOACCESSIBLE;
+
+
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: RRE, Marriage, Education Cats   */
+%LET _CLIENTTASKLABEL='RRE, Marriage, Education Cats';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:43 PM
+   By task: RRE, Marriage, Education Cats
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__CAT
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORT);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__CAT
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORT AS
+		SELECT T."RISK/RESTLESS/NRGY CAT"n, T."Married or not currently married"n, T."EDUCATION CAT"n
+	FROM ZDATA.MEPS_FULLYR_2012__CAT as T
+;
+QUIT;
+
+TITLE;
+TITLE1 "One-Way Frequencies";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC FREQ DATA=WORK.SORT
+	ORDER=INTERNAL
+;
+	TABLES "RISK/RESTLESS/NRGY CAT"n /  SCORES=TABLE;
+	TABLES "Married or not currently married"n /  SCORES=TABLE;
+	TABLES "EDUCATION CAT"n /  SCORES=TABLE;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORT);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: RRE Check   */
+%LET _CLIENTTASKLABEL='RRE Check';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:43 PM
+   By task: RRE Check
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__CAT
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORT);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__CAT
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORT AS
+		SELECT T."RISK/RESTLESSNESS/ENERGY AGG"n, T."RISK/RESTLESS/NRGY CAT"n
+	FROM ZDATA.MEPS_FULLYR_2012__CAT as T
+;
+QUIT;
+
+TITLE;
+TITLE1 "One-Way Frequencies";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC FREQ DATA=WORK.SORT
+	ORDER=INTERNAL
+;
+	TABLES "RISK/RESTLESSNESS/ENERGY AGG"n /  SCORES=TABLE;
+	TABLES "RISK/RESTLESS/NRGY CAT"n /  SCORES=TABLE;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORT);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Marraige Check   */
+%LET _CLIENTTASKLABEL='Marraige Check';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:43 PM
+   By task: Marraige Check
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__CAT
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORT);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__CAT
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORT AS
+		SELECT T."MARITAL STATUS"n, T."Married or not currently married"n
+	FROM ZDATA.MEPS_FULLYR_2012__CAT as T
+;
+QUIT;
+
+TITLE;
+TITLE1 "One-Way Frequencies";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC FREQ DATA=WORK.SORT
+	ORDER=INTERNAL
+;
+	TABLES "MARITAL STATUS"n /  SCORES=TABLE;
+	TABLES "Married or not currently married"n /  SCORES=TABLE;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORT);
+TITLE; FOOTNOTE;
+
+
+GOPTIONS NOACCESSIBLE;
+%LET _CLIENTTASKLABEL=;
+%LET _CLIENTPROJECTPATH=;
+%LET _CLIENTPROJECTNAME=;
+
+
+/*   START OF NODE: Education Check   */
+%LET _CLIENTTASKLABEL='Education Check';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
+
+GOPTIONS ACCESSIBLE;
+/* -------------------------------------------------------------------
+   Code generated by SAS Task
+
+   Generated on: Monday, January 12, 2015 at 4:34:43 PM
+   By task: Education Check
+
+   Input Data: Local:ZDATA.MEPS_FULLYR_2012__CAT
+   Server:  Local
+   ------------------------------------------------------------------- */
+
+%_eg_conditional_dropds(WORK.SORT);
+/* -------------------------------------------------------------------
+   Sort data set Local:ZDATA.MEPS_FULLYR_2012__CAT
+   ------------------------------------------------------------------- */
+
+PROC SQL;
+	CREATE VIEW WORK.SORT AS
+		SELECT T."EDUCATION RECODE"n, T."EDUCATION CAT"n
+	FROM ZDATA.MEPS_FULLYR_2012__CAT as T
+;
+QUIT;
+
+TITLE;
+TITLE1 "One-Way Frequencies";
+TITLE2 "Results";
+FOOTNOTE;
+FOOTNOTE1 "Generated by the SAS System (&_SASSERVERNAME, &SYSSCPL) on %TRIM(%QSYSFUNC(DATE(), NLDATE20.)) at %TRIM(%SYSFUNC(TIME(), TIMEAMPM12.))";
+PROC FREQ DATA=WORK.SORT
+	ORDER=INTERNAL
+;
+	TABLES "EDUCATION RECODE"n /  SCORES=TABLE;
+	TABLES "EDUCATION CAT"n /  SCORES=TABLE;
+RUN;
+/* -------------------------------------------------------------------
+   End of task code.
+   ------------------------------------------------------------------- */
+RUN; QUIT;
+%_eg_conditional_dropds(WORK.SORT);
 TITLE; FOOTNOTE;
 
 
@@ -1287,8 +3043,8 @@ GOPTIONS NOACCESSIBLE;
 
 /*   START OF NODE: Data Set Attributes   */
 %LET _CLIENTTASKLABEL='Data Set Attributes';
-%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\010915\TanZ_SAS_project_010915.egp';
-%LET _CLIENTPROJECTNAME='TanZ_SAS_project_010915.egp';
+%LET _CLIENTPROJECTPATH='P:\QAC\qac200\students\ztan01\Completed Projects (Daily Backup)\011215\TanZ_SAS_project_011215.egp';
+%LET _CLIENTPROJECTNAME='TanZ_SAS_project_011215.egp';
 
 GOPTIONS ACCESSIBLE;
 LIBNAME ECLIB000 "P:\QAC\qac200\Data\MEPS";
@@ -1296,7 +3052,7 @@ LIBNAME ECLIB000 "P:\QAC\qac200\Data\MEPS";
 /* -------------------------------------------------------------------
    Code generated by SAS Task
 
-   Generated on: Friday, January 09, 2015 at 2:46:52 PM
+   Generated on: Monday, January 12, 2015 at 4:34:44 PM
    By task: Data Set Attributes
 
    Input Data: P:\QAC\qac200\Data\MEPS\meps_fullyr_2012.sas7bdat
